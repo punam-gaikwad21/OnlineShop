@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container my-5">
+    <h2 class="text-center mb-4">My Orders</h2>
+
+    {% if orders %}
+    <div class="d-flex justify-content-center">
+        <table class="table table-bordered table-striped w-75 text-center align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Image</th>
+                    <th>Product Name</th>
+                    <th>Total Amount</th>
+                    <th>Payment</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for o in orders %}
+                <tr>
+                    <td>
+                        {% if o.product.image %}
+                            <img src="{{ o.product.image.url }}"
+                                 alt="{{ o.product.name }}"
+                                 width="80"
+                                 class="img-thumbnail">
+                        {% else %}
+                            <img src="{% static 'images/no-image.png' %}"
+                                 width="80"
+                                 class="img-thumbnail"
+                                 alt="No Image">
+                        {% endif %}
+                    </td>
+
+                    <td>{{ o.product.name }}</td>
+                    <td>₹{{ o.total_amount }}</td>
+                    <td>{{ o.payment_type }}</td>
+                    <td>
+                        <span class="badge bg-success">
+                            {{ o.status }}
+                        </span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        <div class="alert alert-info text-center">
+            No orders found.
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}
